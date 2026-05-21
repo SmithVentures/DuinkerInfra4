@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duinker Infra – Infra Die Werkt.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #121212;
+      --white: #ffffff;
+      --grey-light: #f5f5f5;
+      --grey-mid: #e5e5e5;
+      --grey-text: #555;
+      --blue-dark: #445561;
+      --font-head: 'Inter', sans-serif;
+      --font-body: 'Archivo', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--black); background: var(--white); overflow-x: hidden; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── NAV ── */
+    :root {
+      --site-max: 1300px;
+      --site-pad: clamp(1.5rem, 4vw, 3.5rem);
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem var(--site-pad);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .nav-inner {
+      width: 100%; max-width: var(--site-max);
+      margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    nav.transparent { background: transparent; }
+    nav.solid { background: var(--white); box-shadow: 0 1px 0 rgba(0,0,0,0.1); }
+    nav.scrolled-dark { background: rgba(18,18,18,0.92); backdrop-filter: blur(12px); }
+
+    .nav-logo { cursor: pointer; display: flex; align-items: center; text-decoration: none; }
+    .nav-logo img { height: 40px; width: auto; display: block; }
+    .nav-logo .logo-white { display: block; }
+    .nav-logo .logo-normal { display: none; }
+    nav.solid .nav-logo .logo-white { display: none; }
+    nav.solid .nav-logo .logo-normal { display: block; }
+    nav.transparent .nav-logo .logo-white { display: block; }
+    nav.transparent .nav-logo .logo-normal { display: none; }
+    nav.scrolled-dark .nav-logo .logo-white { display: block; }
+    nav.scrolled-dark .nav-logo .logo-normal { display: none; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer;
+      transition: opacity 0.2s; opacity: 0.85;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active-link { opacity: 1; border-bottom: 2px solid currentColor; padding-bottom: 2px; }
+    nav.transparent .nav-links a, nav.scrolled-dark .nav-links a { color: var(--white); }
+    nav.solid .nav-links a { color: var(--black); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; transition: background 0.3s; }
+    nav.transparent .hamburger span, nav.scrolled-dark .hamburger span { background: white; }
+    nav.solid .hamburger span { background: var(--black); }
+
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; background: var(--black); z-index: 200;
+      flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: white; font-size: 2rem; font-weight: 800; text-decoration: none; font-family: var(--font-head); cursor: pointer; }
+    .mobile-close { position: absolute; top: 1.5rem; right: 2rem; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
+
+    /* ── BUTTONS ── */
+    .btn-hero-primary { background: var(--white); color: var(--black); padding: 1rem 2rem; font-weight: 700; font-size: 0.95rem; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 0.2s, transform 0.2s; cursor: pointer; font-family: var(--font-body); }
+    .btn-hero-primary:hover { background: #e5e5e5; transform: translateY(-1px); }
+    .btn-primary { background: var(--blue-dark); color: white; padding: 1rem 2rem; font-weight: 700; font-size: 0.95rem; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 0.2s, transform 0.2s; cursor: pointer; font-family: var(--font-body); }
+    .btn-primary:hover { background: #354450; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: white; padding: 1rem 2rem; font-weight: 700; font-size: 0.95rem; border: 2px solid rgba(255,255,255,0.6); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: border-color 0.2s, transform 0.2s; cursor: pointer; font-family: var(--font-body); }
+    .btn-outline:hover { border-color: white; transform: translateY(-1px); }
+    .btn-dark { background: var(--black); color: white; padding: 1rem 2rem; font-weight: 700; font-size: 0.95rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 0.2s; cursor: pointer; border: none; font-family: var(--font-body); }
+    .btn-dark:hover { background: #333; }
+    .btn-secondary { background: white; color: var(--black); padding: 0.9rem 1.8rem; font-weight: 700; font-size: 0.9rem; border: 2px solid var(--black); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 0.2s, color 0.2s; cursor: pointer; font-family: var(--font-body); }
+    .btn-secondary:hover { background: var(--black); color: white; }
+
+    /* ── GENERAL ── */
+    section { padding: 6rem var(--site-pad); }
+    .container { max-width: var(--site-max); margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-text); margin-bottom: 1rem; }
+    .section-title { font-family: var(--font-head); font-weight: 900; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -0.03em; color: var(--black); }
+    .text-link { color: var(--black); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; border-bottom: 2px solid var(--black); padding-bottom: 2px; transition: gap 0.2s; margin-top: 0.5rem; cursor: pointer; }
+    .text-link:hover { gap: 0.7rem; }
+
+    /* ── HERO ── */
+    .hero { position: relative; height: 100vh; min-height: 600px; overflow: hidden; display: flex; align-items: center; }
+    .hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.72) 50%, rgba(0,0,0,0.2) 100%); z-index: 1; }
+    .hero-content { position: relative; z-index: 2; padding: 0 var(--site-pad); max-width: calc(var(--site-max) + var(--site-pad) * 2); width: 100%; margin: 0 auto; }
+    .hero-inner { max-width: 680px; }
+    .hero-content h1 { font-family: var(--font-head); font-weight: 900; font-size: clamp(3rem, 7vw, 6rem); color: var(--white); line-height: 1; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    .hero-content p { color: rgba(255,255,255,0.88); font-size: 1.1rem; margin-bottom: 2.5rem; line-height: 1.6; }
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .hero-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .badge { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 0.55rem 1rem; font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; backdrop-filter: blur(4px); }
+    .badge svg { width: 16px; height: 16px; }
+
+    /* ── PAGE HERO ── */
+    .page-hero { position: relative; height: 72vh; min-height: 500px; display: flex; align-items: center; overflow: hidden; }
+    .page-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+    .page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.15) 100%); z-index: 1; }
+    .page-hero-content {
+      position: relative; z-index: 2;
+      padding: 3rem var(--site-pad);
+      width: 100%;
+      max-width: calc(var(--site-max) + var(--site-pad) * 2);
+    }
+    .page-hero-content-inner { max-width: 760px; }
+    .page-hero-content { color: white; }
+    .page-hero-content .section-label { color: rgba(255,255,255,0.8); font-family: var(--font-body); }
+    .page-hero-content h1 { font-family: var(--font-head); font-weight: 900; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .page-hero-content p { font-family: var(--font-body); font-size: 1.1rem; opacity: 0.9; line-height: 1.6; max-width: 560px; }
+
+    .page-header-white { padding: 8rem 0 3rem; background: var(--white); }
+    .page-header-white .container { padding-top: 0; padding-bottom: 0; }
+    .page-header-white h1 { font-family: var(--font-head); font-weight: 900; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; }
+
+    /* ── HOME SECTIONS ── */
+    /* alternating bg: odd=white, even=grey */
+    .home-section-1 { background: #ffffff; }
+    .home-section-2 { background: #f5f5f5; }
+    .home-section-3 { background: #ffffff; }
+    .home-section-4 { background: #f5f5f5; } /* stats - overridden to black */
+    .home-section-5 { background: #ffffff; }
+    .home-section-6 { background: #f5f5f5; }
+
+    .over-ons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .over-ons-text .section-title { margin-bottom: 1.5rem; }
+    .over-ons-text p { color: #444; line-height: 1.75; margin-bottom: 1.2rem; font-size: 1rem; }
+    .over-ons-text .section-label { font-size: 0.75rem; color: var(--grey-text); }
+    .over-ons-image img { width: 100%; height: 480px; object-fit: cover; display: block; }
+
+    .projecten-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2.5rem; }
+    .projecten-links a { color: var(--black); text-decoration: none; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.3rem; transition: gap 0.2s; cursor: pointer; }
+    .projecten-links a:hover { gap: 0.6rem; }
+    .projecten-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 1.5rem; }
+    .project-featured { grid-row: 1 / 3; position: relative; overflow: hidden; min-height: 540px; display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--grey-mid); }
+    .project-featured img { width: 100%; flex: 1; object-fit: cover; display: block; transition: transform 0.5s; min-height: 0; }
+    .project-featured:hover img { transform: scale(1.03); }
+    .project-featured-overlay { background: var(--white); padding: 1.5rem; color: var(--black); }
+    .project-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-text); display: inline-block; margin-bottom: 0.5rem; background: none; padding: 0; }
+    .project-featured-overlay h3 { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; line-height: 1.3; margin-bottom: 0.4rem; color: var(--black); }
+    .project-featured-overlay p { font-size: 0.9rem; color: #555; }
+    .project-card { background: var(--white); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--grey-mid); }
+    .project-card img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.5s; }
+    .project-card:hover img { transform: scale(1.03); }
+    .project-card-body { padding: 1.5rem; flex: 1; }
+    .project-card-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-text); margin-bottom: 0.6rem; }
+    .project-card-body h3 { font-family: var(--font-head); font-weight: 800; font-size: 1.05rem; line-height: 1.3; color: var(--black); }
+
+    /* Stats */
+    .stats-balk { background: var(--black) !important; color: white; padding: 5rem var(--site-pad); }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: var(--site-max); margin: 0 auto; }
+    .stats-title { font-family: var(--font-head); font-weight: 900; font-size: clamp(2.2rem, 4.5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em; }
+    .stats-right p { color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 3rem; font-size: 1rem; }
+    .stats-numbers { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .stat-number { font-family: var(--font-head); font-weight: 900; font-size: 3rem; line-height: 1; letter-spacing: -0.04em; }
+    .stat-label { font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-top: 0.3rem; }
+
+    /* Verhuur home */
+    .verhuur-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 3rem; }
+    .verhuur-title-italic { font-family: var(--font-body); font-style: italic; font-weight: 600; font-size: clamp(1.5rem, 3vw, 2.2rem); color: #888; margin-top: 0.3rem; }
+    .verhuur-right p { color: #444; line-height: 1.7; margin-bottom: 1.5rem; }
+    .verhuur-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .verhuur-card { overflow: hidden; background: white; position: relative; border: 1px solid var(--grey-mid); }
+    .verhuur-card img { width: 100%; height: 300px; object-fit: cover; display: block; transition: transform 0.5s; }
+    .verhuur-card:hover img { transform: scale(1.03); }
+    .verhuur-card-body { background: var(--black); color: white; padding: 1.8rem; }
+    .verhuur-card-body h3 { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; margin-bottom: 1rem; }
+    .specs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .spec-tag { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: 500; }
+    .binnenkort-badge { position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.7); color: white; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.35rem 0.7rem; }
+
+    /* Werken bij */
+    .werken-bij-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .werken-bij-logo { display: flex; align-items: center; justify-content: center; padding: 2rem 0; }
+    .werken-bij-logo img { max-width: 320px; width: 100%; }
+    .werken-bij-right .section-title { margin-bottom: 1rem; }
+    .werken-bij-right > p { color: #444; line-height: 1.7; margin-bottom: 2rem; }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+    .feature-item { border: 1px solid var(--grey-mid); padding: 1.2rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 700; font-size: 0.9rem; background: white; }
+    .feature-item svg { width: 18px; height: 18px; flex-shrink: 0; color: #666; }
+
+    /* Activiteiten */
+    .activiteiten-header { text-align: center; margin-bottom: 3rem; }
+    .activiteiten-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .act-card { position: relative; overflow: hidden; height: 320px; text-decoration: none; display: block; cursor: pointer; }
+    .act-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; filter: brightness(0.7); }
+    .act-card:hover img { transform: scale(1.05); filter: brightness(0.6); }
+    .act-card-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem 1.2rem; display: flex; align-items: flex-end; justify-content: space-between; }
+    .act-card-content span { color: white; font-family: var(--font-head); font-weight: 800; font-size: 1.05rem; line-height: 1.2; }
+    .act-arrow { background: var(--black); color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
+
+    /* ── OVER ONS PAGE ── */
+    .waarden-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 3rem; }
+    .waarden-header-left {}
+    .waarden-label-line { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .waarden-label-line::before { content: ''; display: block; width: 2rem; height: 2px; background: var(--grey-text); }
+    .waarden-big-title { font-family: var(--font-head); font-weight: 900; font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em; color: var(--black); }
+    .waarden-subtitle { color: #666; font-size: 1rem; line-height: 1.6; max-width: 320px; align-self: end; }
+    .waarden-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+    .waarde-card { background: white; padding: 2rem; border: 1px solid var(--grey-mid); }
+    .waarde-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+    .waarde-number { font-size: 0.8rem; font-weight: 600; color: #aaa; letter-spacing: 0.05em; }
+    .waarde-icon-new svg { width: 24px; height: 24px; color: #444; }
+    .waarde-card h3 { font-family: var(--font-head); font-weight: 800; font-size: 1.05rem; margin-bottom: 0.6rem; }
+    .waarde-card p { color: #666; line-height: 1.65; font-size: 0.88rem; }
+
+    .werkwijze-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 5rem; }
+    .step-number { font-family: var(--font-head); font-weight: 900; font-size: 3.5rem; color: var(--grey-mid); line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.04em; }
+    .werkwijze-step h3 { font-family: var(--font-head); font-weight: 800; font-size: 1rem; margin-bottom: 0.75rem; }
+    .werkwijze-step p { color: #555; line-height: 1.7; font-size: 0.9rem; }
+
+    .opdrachtgevers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .opdrachtgevers-text p { color: #444; line-height: 1.75; margin-top: 1.5rem; }
+    .opdrachtgevers-image img { width: 100%; height: 420px; object-fit: cover; display: block; }
+
+    /* Scrolling logo strip */
+    .logo-scroll-wrap { overflow: hidden; padding: 2.5rem 0; margin-top: 3rem; background: var(--grey-light); position: relative; }
+    .logo-scroll-wrap::before, .logo-scroll-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; }
+    .logo-scroll-wrap::before { left: 0; background: linear-gradient(to right, var(--grey-light), transparent); }
+    .logo-scroll-wrap::after { right: 0; background: linear-gradient(to left, var(--grey-light), transparent); }
+    .logo-scroll-track { display: flex; gap: 4rem; align-items: center; width: max-content; animation: scroll-logos 28s linear infinite; }
+    .logo-scroll-track:hover { animation-play-state: paused; }
+    @keyframes scroll-logos {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .logo-scroll-item { flex-shrink: 0; height: 48px; display: flex; align-items: center; justify-content: center; }
+    .logo-scroll-item img { height: 48px; width: 120px; object-fit: contain; opacity: 0.85; transition: opacity 0.3s; }
+    .logo-scroll-item img:hover { opacity: 1; }
+
+    /* ── PROJECTEN PAGE ── */
+    .projecten-page-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .project-page-card { background: var(--grey-light); overflow: hidden; }
+    .project-page-card-img { position: relative; overflow: hidden; height: 300px; }
+    .project-page-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .project-page-card:hover .project-page-card-img img { transform: scale(1.04); }
+    .project-page-tag { position: absolute; top: 1rem; left: 1rem; background: var(--black); color: white; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.75rem; }
+    .project-page-body { padding: 1.8rem; }
+    .project-page-body h3 { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; margin-bottom: 0.75rem; line-height: 1.3; }
+    .project-page-body p { color: #555; line-height: 1.7; font-size: 0.95rem; }
+
+    /* ── CONTACT PAGE ── */
+    .contact-page { padding: 0; }
+    .contact-page-inner { padding: 8rem 0 4rem; }
+    .contact-page h1 { font-family: var(--font-head); font-weight: 900; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; margin-bottom: 0.75rem; text-align: center; }
+    .contact-page > .container > p { color: #555; text-align: center; margin-bottom: 3rem; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 400px; gap: 5rem; align-items: start; }
+    .contact-form {}
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .form-group input, .form-group textarea { width: 100%; padding: 0.9rem 1rem; background: var(--grey-light); border: 1px solid var(--grey-mid); font-family: var(--font-body); font-size: 0.95rem; color: var(--black); outline: none; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--black); }
+    .form-group textarea { height: 160px; resize: vertical; }
+    ::placeholder { color: #aaa; }
+    .form-submit { background: var(--black); color: white; border: none; padding: 1.1rem 2.5rem; font-family: var(--font-body); font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
+    .form-submit:hover { background: #333; }
+    .form-success { display: none; background: #e8f5e9; border: 1px solid #c8e6c9; padding: 1rem 1.5rem; color: #2e7d32; font-weight: 600; margin-top: 1rem; }
+
+    /* Contact info sidebar */
+    .contact-info { background: var(--grey-light); padding: 2.5rem; }
+    .contact-info h3 { font-family: var(--font-head); font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem; }
+    .contact-info-block { margin-bottom: 2rem; }
+    .contact-info-block h4 { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-text); margin-bottom: 0.6rem; }
+    .contact-info-block p { color: #333; line-height: 1.8; font-size: 0.95rem; }
+    .contact-info-block a { color: var(--black); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--black); transition: opacity 0.2s; }
+    .contact-info-block a:hover { opacity: 0.6; }
+
+    /* ── VERHUUR PAGE ── */
+    .verhuur-page { padding: 0; }
+    .verhuur-page-inner { padding: 8rem 0 4rem; }
+    .verhuur-page h1 { font-family: var(--font-head); font-weight: 900; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; margin-bottom: 3rem; }
+    .verhuur-page-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 5rem; }
+    .verhuur-page-card { background: var(--grey-light); overflow: hidden; border: 1px solid var(--grey-mid); transition: transform 0.3s, box-shadow 0.3s; }
+    .verhuur-page-card:hover { transform: scale(1.02); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .verhuur-page-card > img { width: 100%; height: 280px; object-fit: cover; display: block; }
+    .verhuur-img-wrap { position: relative; overflow: hidden; }
+    .verhuur-img-wrap img { width: 100%; height: 280px; object-fit: cover; display: block; }
+    .coming-soon-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; }
+    .coming-soon-badge { background: var(--black); color: white; font-family: var(--font-head); font-weight: 800; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.85rem 2rem; border: 2px solid rgba(255,255,255,0.3); }
+    .verhuur-coming-soon { pointer-events: auto; }
+    .verhuur-coming-soon:hover { transform: none !important; box-shadow: none !important; }
+    .verhuur-page-card-body { padding: 2rem; }
+    .verhuur-page-card-body h3 { font-family: var(--font-head); font-weight: 800; font-size: 1.3rem; margin-bottom: 0.75rem; }
+    .verhuur-page-card-body p { color: #555; line-height: 1.7; margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .verhuur-specs-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    .verhuur-specs-table tr { border-bottom: 1px solid var(--grey-mid); }
+    .verhuur-specs-table td { padding: 0.6rem 0; font-size: 0.9rem; }
+    .verhuur-specs-table td:first-child { font-weight: 700; }
+    .verhuur-specs-table td:last-child { color: #555; text-align: right; }
+    .verhuur-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; }
+    .prijs-label { font-style: italic; color: #999; font-size: 0.9rem; }
+    .btn-offerte { background: var(--black); color: white; padding: 0.85rem 1.6rem; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 0.2s; font-family: var(--font-body); }
+    .btn-offerte:hover { background: #333; }
+
+    /* FAQ */
+    .faq-section { padding: 0 0 6rem; }
+    .faq-section h2 { font-family: var(--font-head); font-weight: 900; font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -0.03em; margin-bottom: 2rem; text-align: center; }
+    .faq-item { border: 1px solid var(--grey-mid); margin-bottom: 0.75rem; overflow: hidden; }
+    .faq-question { width: 100%; background: none; border: none; text-align: left; padding: 1.3rem 1.5rem; font-family: var(--font-body); font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--black); }
+    .faq-question:hover { background: var(--grey-light); }
+    .faq-chevron { transition: transform 0.3s; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer p { padding: 0 1.5rem 1.3rem; color: #555; line-height: 1.7; font-size: 0.95rem; }
+
+    /* ── FOOTER ── */
+    /* ── VACATURES PAGE ── */
+    .vacatures-page { padding: 0; }
+    .vacatures-page-inner { padding: 8rem 0 2rem; }
+    .vacatures-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 4rem; }
+    .vacatures-intro h1 { font-family: var(--font-head); font-weight: 900; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; }
+    .vacatures-intro p { color: #555; line-height: 1.7; font-size: 1rem; }
+    .vacature-card { border: 1px solid var(--grey-mid); background: var(--white); margin-bottom: 1.5rem; }
+    .vacature-card-header { padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 2rem; }
+    .vacature-card-header:hover { background: var(--grey-light); }
+    .vacature-meta { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .vacature-tag { background: var(--grey-light); color: #555; font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .vacature-card-header h2 { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .vacature-toggle { background: var(--black); color: white; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.4rem; transition: transform 0.3s; }
+    .vacature-card.open .vacature-toggle { transform: rotate(45deg); }
+    .vacature-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .vacature-card.open .vacature-body { max-height: 1200px; }
+    .vacature-body-inner { padding: 0 2.5rem 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .vacature-section h3 { font-family: var(--font-head); font-weight: 800; font-size: 1rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+    .vacature-section ul { list-style: none; padding: 0; }
+    .vacature-section ul li { padding: 0.4rem 0; color: #444; font-size: 0.95rem; line-height: 1.6; display: flex; gap: 0.6rem; }
+    .vacature-section ul li::before { content: '—'; color: #aaa; flex-shrink: 0; }
+    .vacature-section p { color: #444; line-height: 1.7; font-size: 0.95rem; }
+    .vacature-cta { padding: 0 2.5rem 2.5rem; border-top: 1px solid var(--grey-mid); padding-top: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .vacature-cta p { color: #555; font-size: 0.9rem; }
+    .vacatures-empty { background: var(--grey-light); padding: 4rem 2rem; text-align: center; }
+    .vacatures-empty p { color: #777; font-size: 1rem; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    footer { background: var(--black); color: white; padding: 4rem var(--site-pad) 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 3rem; max-width: var(--site-max); margin: 0 auto 3rem; }
+    .footer-col h4 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.75rem; }
+    .footer-col ul a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; cursor: pointer; }
+    .footer-col ul a:hover { color: white; }
+    .footer-address { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.8; }
+    .footer-address a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+    .footer-address a:hover { color: white; }
+    .btn-contact { background: white; color: var(--black); padding: 1rem 1.8rem; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 0.2s; cursor: pointer; border: none; font-family: var(--font-body); }
+    .btn-contact:hover { background: #e5e5e5; }
+    .footer-bottom { max-width: var(--site-max); margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.85rem; color: rgba(255,255,255,0.4); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-legal a:hover { color: white; }
+
+    /* Coming soon cards */
+    .verhuur-card-coming-soon { border: 2px dashed var(--grey-mid); display: flex; align-items: center; justify-content: center; min-height: 300px; background: var(--grey-light); }
+    .coming-soon-box { text-align: center; padding: 2rem; }
+    .coming-soon-label { display: inline-block; background: var(--black); color: white; font-family: var(--font-head); font-weight: 800; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.6rem 1.4rem; margin-bottom: 0.75rem; }
+    .coming-soon-box p { color: #777; font-size: 1rem; font-weight: 600; }
+    .verhuur-page-card-coming-soon { border: 2px dashed var(--grey-mid); background: var(--grey-light); display: flex; align-items: center; justify-content: center; min-height: 420px; }
+    .verhuur-coming-soon-full { text-align: center; padding: 3rem 2rem; }
+    .coming-soon-label-large { display: inline-block; background: var(--black); color: white; font-family: var(--font-head); font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 2rem; margin-bottom: 1rem; }
+    .coming-soon-sub { font-family: var(--font-head); font-weight: 800; font-size: 1.3rem; color: var(--black); margin-bottom: 0.75rem; }
+    .coming-soon-info { color: #777; font-size: 0.9rem; line-height: 1.6; max-width: 280px; margin: 0 auto; }
+
+    /* Hide mobile-only elements on desktop */
+    .waarden-slider, .werkwijze-slider { display: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem var(--site-pad); }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 4rem var(--site-pad); }
+      .hero-content { padding: 0 var(--site-pad); }
+      .over-ons-grid, .stats-grid, .werken-bij-grid, .verhuur-header, .opdrachtgevers-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .projecten-grid, .verhuur-cards, .verhuur-page-cards, .projecten-page-grid { grid-template-columns: 1fr; }
+      .project-featured { grid-row: auto; min-height: 360px; }
+      .vacature-body-inner { grid-template-columns: 1fr; }
+      .vacatures-intro { grid-template-columns: 1fr; gap: 1.5rem; }
+      .waarden-grid, .werkwijze-grid { grid-template-columns: 1fr 1fr; }
+      .waarden-header { grid-template-columns: 1fr; gap: 1rem; }
+      .activiteiten-cards { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .stats-balk { padding: 4rem var(--site-pad); }
+      .feature-grid { grid-template-columns: 1fr; }
+      .contact-page-inner, .verhuur-page-inner { padding: 6rem 0 3rem; }
+      .faq-section { padding: 0 0 4rem; }
+      .page-header-white { padding: 0; }
+
+      /* ── MOBILE ONLY ── */
+
+      /* Mobile container padding - section already handles site-pad, so no extra on container */
+      .container { padding-left: 0; padding-right: 0; }
+
+      /* Projecten pagina titel */
+      .page-header-white .container { padding-top: 5rem; padding-bottom: 1rem; padding-left: var(--site-pad); padding-right: var(--site-pad); }
+      .projecten-header-container { padding-left: var(--site-pad) !important; padding-right: var(--site-pad) !important; padding-top: 5rem !important; }
+
+      /* Contact, verhuur, vacatures - these don't have a section wrapper so need their own padding */
+      .contact-page-inner, .verhuur-page-inner, .vacatures-page-inner { padding-left: var(--site-pad); padding-right: var(--site-pad); }
+
+      /* Over ons afbeelding korter op mobiel */
+      .over-ons-image img { height: 220px; }
+
+      /* Over ons hero tekst uitlijnen */
+      .page-hero-content { padding: 2rem var(--site-pad); }
+
+      /* Homepage: verberg logo bij werken bij sectie */
+      .werken-bij-logo { display: none; }
+      .werken-bij-grid { grid-template-columns: 1fr; }
+
+      /* Over ons: verberg kraan afbeelding bij opdrachtgevers */
+      .opdrachtgevers-image { display: none; }
+      .opdrachtgevers-grid { grid-template-columns: 1fr; }
+
+      /* Waarden: slider op mobiel, geen 2x2 grid */
+      .waarden-grid { display: none !important; }
+      .waarden-slider { display: block !important; }
+
+      /* Werkwijze: verberg grid, toon slider */
+      .werkwijze-grid { display: none; }
+      .werkwijze-slider { display: block; }
+
+      /* Slider algemeen */
+      .mobile-slider { position: relative; overflow: hidden; }
+      .mobile-slide { display: none; }
+      .mobile-slide.active { display: block; }
+      .slider-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; }
+      .slider-nav-dots-only { justify-content: center; }
+      .slider-dots { display: flex; gap: 0.5rem; }
+      .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grey-mid); border: none; cursor: pointer; padding: 0; transition: background 0.2s; }
+      .slider-dot.active { background: var(--black); }
+      .slider-btn { background: var(--black); color: white; border: none; width: 40px; height: 40px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+      .slider-btn:hover { background: #333; }
+      .slider-btn:disabled { background: var(--grey-mid); cursor: default; }
+    }
+    @media (max-width: 560px) {
+      .activiteiten-cards { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; }
+      .projecten-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .verhuur-card-footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobile()">✕</button>
+  <a onclick="navigate('home');closeMobile()">Home</a>
+  <a onclick="navigate('over-ons');closeMobile()">Over ons</a>
+  <a onclick="navigate('projecten');closeMobile()">Projecten</a>
+  <a onclick="navigate('contact');closeMobile()">Contact</a>
+  <a onclick="navigate('verhuur');closeMobile()">Verhuur</a>
+  <a onclick="navigate('vacatures');closeMobile()">Vacatures</a>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar" class="transparent">
+  <div class="nav-inner">
+    <a class="nav-logo" onclick="navigate('home')">
+      <img class="logo-white" src="images/logo-wit.png" alt="Duinker Infra">
+      <img class="logo-normal" src="images/logo-normaal.png" alt="Duinker Infra">
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="navigate('home')" data-page="home">Home</a></li>
+      <li><a onclick="navigate('over-ons')" data-page="over-ons">Over ons</a></li>
+      <li><a onclick="navigate('projecten')" data-page="projecten">Projecten</a></li>
+      <li><a onclick="navigate('contact')" data-page="contact">Contact</a></li>
+      <li><a onclick="navigate('verhuur')" data-page="verhuur">Verhuur</a></li>
+      <li><a onclick="navigate('vacatures')" data-page="vacatures">Vacatures</a></li>
+    </ul>
+    <button class="hamburger" onclick="openMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════ PAGE: HOME ═══════ -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <video autoplay muted loop playsinline>
+      <source src="images/hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-inner">
+        <h1>Infra Die Werkt.</h1>
+        <p>Duinker Infra verzorgt projecten van A tot Z.<br>Ontwerp → Advies → Uitvoering</p>
+        <div class="hero-buttons">
+          <button class="btn-hero-primary" onclick="navigate('projecten')">Bekijk onze projecten →</button>
+          <button class="btn-outline" onclick="navigate('contact')">Neem contact op</button>
+        </div>
+        <div class="hero-badges">
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Veiligheid</div>
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Duurzaamheid</div>
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Kwaliteit en betrouwbaar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1: Over ons – wit -->
+  <section class="home-section-1">
+    <div class="container">
+      <div class="over-ons-grid">
+        <div class="over-ons-text reveal reveal-delay-2">
+          <p class="section-label">Over Duinker Infra</p>
+          <h2 class="section-title reveal reveal-delay-1">Wij bouwen aan de toekomst van morgen</h2>
+          <p>Duinker Infra is een nuchter en daadkrachtig infrabedrijf dat werkt aan emissieloze en betrouwbare oplossingen in de buitenruimte. We combineren vakmanschap met een praktische aanpak en realiseren projecten waarbij kwaliteit, veiligheid en samenwerking centraal staan.</p>
+          <p>Onze werkzaamheden bestaan uit het voorbereiden, aanleggen, onderhouden en verbeteren van energiesystemen. We werken voor zakelijke opdrachtgevers, ontwikkelaars, aannemers en overheden en denken actief mee over een efficiënte en toekomstgerichte uitvoering.</p>
+          <a class="text-link" onclick="navigate('over-ons')">Meer over Duinker Infra →</a>
+        </div>
+        <div class="over-ons-image reveal reveal-delay-2">
+          <img src="images/kabels-veld.webp" alt="Duinker Infra project">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Projecten – grijs -->
+  <section class="home-section-2">
+    <div class="container">
+      <div class="projecten-header">
+        <div>
+          <p class="section-label reveal">Uitgelicht</p>
+          <h2 class="section-title reveal reveal-delay-1">Projecten en inzichten</h2>
+        </div>
+        <div class="projecten-links">
+          <a onclick="navigate('projecten')">Alle projecten →</a>
+        </div>
+      </div>
+      <div class="projecten-grid">
+        <div class="project-featured reveal">
+          <img src="images/oosterend-kaart.png" alt="Herinrichting van Oosterend">
+          <div class="project-featured-overlay">
+            <span class="project-tag">Uitgelicht project</span>
+            <h3>Herinrichting van Oosterend</h3>
+            <p>Een project waarbij voorbereiding, uitvoering en slimme fasering samenkomen.</p>
+          </div>
+        </div>
+        <div class="project-card reveal">
+          <img src="images/aansluiting.webp" alt="Aansluiting onderstation">
+          <div class="project-card-body"><p class="project-card-label">Project</p><h3>Aansluiting onderstation Zuid-Eierland</h3></div>
+        </div>
+        <div class="project-card reveal">
+          <img src="images/accu-130kwh.webp" alt="Duurzame inzet">
+          <div class="project-card-body"><p class="project-card-label">Duurzaamheid</p><h3>Slimmer werken met duurzame inzet op projectlocaties</h3></div>
+        </div>
+        <div class="project-card reveal">
+          <img src="images/bouwvakkers.webp" alt="Veiligheid">
+          <div class="project-card-body"><p class="project-card-label">Veiligheid</p><h3>Veilig uitvoeren begint met goede voorbereiding. Duinker Infra is ISO en VCA ** gecertificeerd</h3></div>
+        </div>
+        <div class="project-card reveal">
+          <img src="images/zuigwagen.webp" alt="Zuigwagen">
+          <div class="project-card-body"><p class="project-card-label">Inzicht</p><h3>Duinker Infra investeert in een zuigwagen om efficiënter te werken</h3></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats – zwart -->
+  <div class="stats-balk">
+    <div class="stats-grid">
+      <div><h2 class="stats-title reveal">Samen werken we aan een emissieloze toekomst.</h2></div>
+      <div class="stats-right reveal reveal-delay-2">
+        <p>Met een duidelijke focus op duurzaamheid en innovatie werken wij aan infrastructuuroplossingen voor de toekomst. Van emissieloos materieel tot slimme en betrouwbare uitvoering: wij realiseren projecten met oog voor kwaliteit, omgeving en een lagere impact op het milieu.</p>
+        <div class="stats-numbers">
+          <div><div class="stat-number">8+</div><div class="stat-label">jaar ervaring</div></div>
+          <div><div class="stat-number">100%</div><div class="stat-label">Emissieloos</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Verhuur – wit -->
+  <section class="home-section-3">
+    <div class="container">
+      <div class="verhuur-header">
+        <div>
+          <p class="section-label reveal">Verhuur</p>
+          <h2 class="section-title reveal reveal-delay-1">Accubatterijen</h2>
+          <p class="verhuur-title-italic">voor verhuur</p>
+        </div>
+        <div class="verhuur-right">
+          <p>Wij verhuren mobiele accubatterijen voor elektrisch aangedreven gereedschap en apparatuur. Stil, schoon en zero-emissie — ideaal in emissievrije bouwzones.</p>
+          <button class="btn-secondary" onclick="navigate('verhuur')">Bekijk alle verhuur →</button>
+        </div>
+      </div>
+      <div class="verhuur-cards">
+        <div class="verhuur-card reveal">
+          <img src="images/accu-130kwh.webp" alt="Accubatterij 130 kWh">
+          <div class="verhuur-card-body"><h3>Accubatterij 130 kWh</h3><div class="specs"><span class="spec-tag">130 kWh capaciteit</span><span class="spec-tag">45 kVa</span><span class="spec-tag">2.200 – 2.300 kg</span></div></div>
+        </div>
+        <div class="verhuur-card-coming-soon reveal">
+          <div class="coming-soon-box">
+            <span class="coming-soon-label">Binnenkort beschikbaar</span>
+            <p>Accubatterij 60 kWh</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Werken bij – grijs -->
+  <section class="home-section-6">
+    <div class="container">
+      <div class="werken-bij-grid">
+        <div class="werken-bij-logo reveal">
+          <img src="images/logo-kleur.png" alt="Duinker Infra logo">
+        </div>
+        <div class="werken-bij-right reveal reveal-delay-1">
+          <p class="section-label reveal">Werken bij Duinker Infra</p>
+          <h2 class="section-title reveal reveal-delay-1">Maak het verschil op elk project</h2>
+          <p>Onze mensen maken het verschil op elk project. Bij Duinker Infra werk je aan zichtbare resultaten in de buitenruimte, samen met collega's die houden van aanpakken, samenwerken en kwaliteit leveren.</p>
+          <div class="feature-grid">
+            <div class="feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Bouw mee aan sterke projecten</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>Maak impact</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Groei in vakmanschap</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Werk veilig en praktisch</div>
+          </div>
+          <button class="btn-dark" style="width:100%;justify-content:center;" onclick="navigate('vacatures')">Bekijk vacatures →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Activiteiten – wit -->
+  <section class="home-section-5">
+    <div class="container">
+      <div class="activiteiten-header">
+        <p class="section-label reveal">Onze activiteiten</p>
+        <h2 class="section-title reveal reveal-delay-1">Direct naar onze activiteiten</h2>
+      </div>
+      <div class="activiteiten-cards">
+        <div class="act-card reveal reveal-delay-1"  onclick="navigate('verhuur')"><img src="images/accu-130kwh.webp" alt="Verhuur"><div class="act-card-content"><span>Bekijk verhuur</span><div class="act-arrow">→</div></div></div>
+        <div class="act-card reveal reveal-delay-1"  onclick="navigate('over-ons')"><img src="images/vuurtoren.jpg" alt="Over ons"><div class="act-card-content"><span>Bekijk over ons</span><div class="act-arrow">→</div></div></div>
+        <div class="act-card reveal reveal-delay-1"  onclick="navigate('projecten')"><img src="images/graafmachine.webp" alt="Projecten"><div class="act-card-content"><span>Bekijk projecten</span><div class="act-arrow">→</div></div></div>
+        <div class="act-card reveal reveal-delay-1" onclick="navigate('vacatures')"><img src="images/vacatures-machines.webp" alt="Vacatures"><div class="act-card-content"><span>Bekijk vacatures</span><div class="act-arrow">→</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Wat wij doen</h4><ul><li><a onclick="navigate('over-ons')">Ontwerp</a></li><li><a onclick="navigate('over-ons')">Advies</a></li><li><a onclick="navigate('over-ons')">Uitvoering</a></li></ul></div>
+      <div class="footer-col"><h4>Pagina's</h4><ul><li><a onclick="navigate('home')">Home</a></li><li><a onclick="navigate('over-ons')">Over ons</a></li><li><a onclick="navigate('projecten')">Projecten</a></li><li><a onclick="navigate('contact')">Contact</a></li><li><a onclick="navigate('verhuur')">Verhuur</a></li><li><a onclick="navigate('vacatures')">Vacatures</a></li></ul></div>
+      <div class="footer-col"><h4>Hoofdkantoor</h4><div class="footer-address">Krukas 5<br>1792 CW Oudeschild<br>E: <a href="mailto:info@duinkerinfra.nl">info@duinkerinfra.nl</a></div></div>
+      <div class="footer-col"><h4>Contact</h4><button class="btn-contact" onclick="navigate('contact')">Neem contact op ↗</button></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Duinker Infra. Alle rechten voorbehouden.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Cookiebeleid</a><a href="#">Algemene voorwaarden</a></div></div>
+  </footer>
+</div>
+
+<!-- ═══════ PAGE: OVER ONS ═══════ -->
+<div class="page" id="page-over-ons">
+    <div class="page-hero">
+    <img src="images/vuurtoren.jpg" alt="Over Duinker Infra">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-hero-content-inner">
+        <p class="section-label reveal">Over ons</p>
+        <h1>Over Duinker Infra</h1>
+        <p>Wij zijn een professioneel infrabedrijf met jarenlange ervaring in het realiseren van duurzame en innovatieve projecten.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <section style="background:#ffffff;">
+    <div class="container">
+      <div class="waarden-header reveal">
+        <div class="waarden-header-left">
+          <div class="waarden-label-line section-label">Onze waarden</div>
+          <h2 class="waarden-big-title">Vier principes waar wij elke werkdag op terugvallen.</h2>
+        </div>
+        <p class="waarden-subtitle">Geen postercultuur — gewoon de uitgangspunten waarmee we beslissen.</p>
+      </div>
+      <div class="waarden-grid">
+        <div class="waarde-card reveal">
+          <div class="waarde-card-top"><span class="waarde-number">01</span><div class="waarde-icon-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div></div>
+          <h3>Veiligheid</h3>
+          <p>Veiligheid staat in elke fase van het werk voorop. Voor medewerkers, partners, opdrachtgevers en omgeving.</p>
+        </div>
+        <div class="waarde-card reveal reveal-delay-1">
+          <div class="waarde-card-top"><span class="waarde-number">02</span><div class="waarde-icon-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div></div>
+          <h3>Betrouwbaarheid</h3>
+          <p>Heldere afspraken, vakmanschap in uitvoering en resultaten waar opdrachtgevers op kunnen bouwen.</p>
+        </div>
+        <div class="waarde-card reveal reveal-delay-2">
+          <div class="waarde-card-top"><span class="waarde-number">03</span><div class="waarde-icon-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 22c0 0 4-2 8-6s8-10 12-14c0 0-6 0-12 6S2 22 2 22z"/><path d="M2 22c2-4 6-8 10-10"/></svg></div></div>
+          <h3>Duurzaamheid</h3>
+          <p>Wij kijken vooruit en werken aan oplossingen die slimmer, efficiënter en toekomstbestendiger zijn.</p>
+        </div>
+        <div class="waarde-card reveal reveal-delay-3">
+          <div class="waarde-card-top"><span class="waarde-number">04</span><div class="waarde-icon-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
+          <h3>Samenwerking</h3>
+          <p>Wij draaien het beste met opdrachtgevers die meedenken. Korte lijnen, eerlijke planning.</p>
+        </div>
+      </div>
+      <!-- Mobile waarden slider -->
+      <div class="waarden-slider">
+        <div class="mobile-slider" id="waardenSlider">
+          <div class="mobile-slide active waarde-card"><div class="waarde-card-top"><span class="waarde-number">01</span><div class="waarde-icon-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div></div><h3>Veiligheid</h3><p>Veiligheid staat in elke fase van het werk voorop. Voor medewerkers, partners, opdrachtgevers en omgeving.</p></div>
+          <div class="mobile-slide waarde-card"><div class="waarde-card-top"><span class="waarde-number">02</span><div class="waarde-icon-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div></div><h3>Betrouwbaarheid</h3><p>Heldere afspraken, vakmanschap in uitvoering en resultaten waar opdrachtgevers op kunnen bouwen.</p></div>
+          <div class="mobile-slide waarde-card"><div class="waarde-card-top"><span class="waarde-number">03</span><div class="waarde-icon-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 22c0 0 4-2 8-6s8-10 12-14c0 0-6 0-12 6S2 22 2 22z"/><path d="M2 22c2-4 6-8 10-10"/></svg></div></div><h3>Duurzaamheid</h3><p>Wij kijken vooruit en werken aan oplossingen die slimmer, efficiënter en toekomstbestendiger zijn.</p></div>
+          <div class="mobile-slide waarde-card"><div class="waarde-card-top"><span class="waarde-number">04</span><div class="waarde-icon-new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div><h3>Samenwerking</h3><p>Wij draaien het beste met opdrachtgevers die meedenken. Korte lijnen, eerlijke planning.</p></div>
+        </div>
+        <div class="slider-nav slider-nav-dots-only">
+          <div class="slider-dots" id="waardenDots">
+            <button class="slider-dot active" onclick="goWaarden(0)"></button>
+            <button class="slider-dot" onclick="goWaarden(1)"></button>
+            <button class="slider-dot" onclick="goWaarden(2)"></button>
+            <button class="slider-dot" onclick="goWaarden(3)"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#f5f5f5;">
+    <div class="container">
+      <p class="section-label reveal">Werkwijze</p>
+      <h2 class="section-title reveal reveal-delay-1">Zo pakken wij een project aan</h2>
+      <div class="werkwijze-grid">
+        <div class="werkwijze-step reveal"><div class="step-number">01</div><h3>Intake &amp; Voorbereiding</h3><p>We beginnen met een grondig overleg om de projectwensen volledig in kaart te brengen. Zo weten we precies wat er nodig is voordat we starten.</p></div>
+        <div class="werkwijze-step reveal"><div class="step-number">02</div><h3>Ontwerp &amp; Advies</h3><p>Nadat de projectwensen in kaart zijn gebracht, stellen wij een ontwerp en een advies op, waarna er akkoord word gegeven.</p></div>
+        <div class="werkwijze-step reveal"><div class="step-number">03</div><h3>Planning &amp; Uitvoering</h3><p>Zodra er akkoord is gegeven kunnen wij aan de slag met het bestellen van de materialen en de uitvoering van het project.</p></div>
+        <div class="werkwijze-step reveal"><div class="step-number">04</div><h3>Oplevering &amp; Nazorg</h3><p>Na de succesvolle oplevering van het project leveren we een revisie aan en staan we klaar voor de nodige vragen.</p></div>
+      </div>
+      <!-- Mobile werkwijze slider -->
+      <div class="werkwijze-slider">
+        <div class="mobile-slider" id="werkwijzeSlider">
+          <div class="mobile-slide active werkwijze-step"><div class="step-number">01</div><h3>Intake &amp; Voorbereiding</h3><p>We beginnen met een grondig overleg om de projectwensen volledig in kaart te brengen. Zo weten we precies wat er nodig is voordat we starten.</p></div>
+          <div class="mobile-slide werkwijze-step"><div class="step-number">02</div><h3>Ontwerp &amp; Advies</h3><p>Nadat de projectwensen in kaart zijn gebracht, stellen wij een ontwerp en een advies op, waarna er akkoord word gegeven.</p></div>
+          <div class="mobile-slide werkwijze-step"><div class="step-number">03</div><h3>Planning &amp; Uitvoering</h3><p>Zodra er akkoord is gegeven kunnen wij aan de slag met het bestellen van de materialen en de uitvoering van het project.</p></div>
+          <div class="mobile-slide werkwijze-step"><div class="step-number">04</div><h3>Oplevering &amp; Nazorg</h3><p>Na de succesvolle oplevering van het project leveren we een revisie aan en staan we klaar voor de nodige vragen.</p></div>
+        </div>
+        <div class="slider-nav">
+          <button class="slider-btn" onclick="slideWerkwijze(-1)">←</button>
+          <div class="slider-dots" id="werkwijzeDots">
+            <button class="slider-dot active" onclick="goWerkwijze(0)"></button>
+            <button class="slider-dot" onclick="goWerkwijze(1)"></button>
+            <button class="slider-dot" onclick="goWerkwijze(2)"></button>
+            <button class="slider-dot" onclick="goWerkwijze(3)"></button>
+          </div>
+          <button class="slider-btn" onclick="slideWerkwijze(1)">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#ffffff;">
+    <div class="container">
+      <div class="opdrachtgevers-grid">
+        <div class="opdrachtgevers-text reveal">
+          <p class="section-label reveal">Onze opdrachtgevers</p>
+          <h2 class="section-title reveal reveal-delay-1">Voor wie wij werken</h2>
+          <p>Wij leveren hoogwaardige infra- en bouwoplossingen voor een breed scala aan professionele opdrachtgevers. Van gemeenten tot projectontwikkelaars, wij staan voor kwaliteit en betrouwbaarheid.</p>
+        </div>
+        <div class="opdrachtgevers-image reveal reveal-delay-2">
+          <img src="images/graafmachine-zon.webp" alt="Graafmachine op locatie">
+        </div>
+      </div>
+      <!-- Scrolling logo bar -->
+      <div class="logo-scroll-wrap reveal">
+        <div class="logo-scroll-track" id="logoTrack">
+          <div class="logo-scroll-item"><img src="images/logos/liander.png" alt="Liander"></div>
+          <div class="logo-scroll-item"><img src="images/logos/texel.png" alt="Gemeente Texel"></div>
+          <div class="logo-scroll-item"><img src="images/logos/kpn.png" alt="KPN"></div>
+          <div class="logo-scroll-item"><img src="images/logos/stam-co.png" alt="Stam & Co"></div>
+          <div class="logo-scroll-item"><img src="images/logos/pwn.png" alt="PWN"></div>
+          <div class="logo-scroll-item"><img src="images/logos/schadenberg.png" alt="Schadenberg Plaisier"></div>
+          <div class="logo-scroll-item"><img src="images/logos/spie.svg" alt="SPIE"></div>
+          <div class="logo-scroll-item"><img src="images/logos/nioz.png" alt="NIOZ"></div>
+          <div class="logo-scroll-item"><img src="images/logos/van-gelder.jpeg" alt="Van Gelder"></div>
+          <!-- Duplicate for seamless loop -->
+          <div class="logo-scroll-item"><img src="images/logos/liander.png" alt="Liander"></div>
+          <div class="logo-scroll-item"><img src="images/logos/texel.png" alt="Gemeente Texel"></div>
+          <div class="logo-scroll-item"><img src="images/logos/kpn.png" alt="KPN"></div>
+          <div class="logo-scroll-item"><img src="images/logos/stam-co.png" alt="Stam & Co"></div>
+          <div class="logo-scroll-item"><img src="images/logos/pwn.png" alt="PWN"></div>
+          <div class="logo-scroll-item"><img src="images/logos/schadenberg.png" alt="Schadenberg Plaisier"></div>
+          <div class="logo-scroll-item"><img src="images/logos/spie.svg" alt="SPIE"></div>
+          <div class="logo-scroll-item"><img src="images/logos/nioz.png" alt="NIOZ"></div>
+          <div class="logo-scroll-item"><img src="images/logos/van-gelder.jpeg" alt="Van Gelder"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Wat wij doen</h4><ul><li><a onclick="navigate('over-ons')">Ontwerp</a></li><li><a onclick="navigate('over-ons')">Advies</a></li><li><a onclick="navigate('over-ons')">Uitvoering</a></li></ul></div>
+      <div class="footer-col"><h4>Pagina's</h4><ul><li><a onclick="navigate('home')">Home</a></li><li><a onclick="navigate('over-ons')">Over ons</a></li><li><a onclick="navigate('projecten')">Projecten</a></li><li><a onclick="navigate('contact')">Contact</a></li><li><a onclick="navigate('verhuur')">Verhuur</a></li><li><a onclick="navigate('vacatures')">Vacatures</a></li></ul></div>
+      <div class="footer-col"><h4>Hoofdkantoor</h4><div class="footer-address">Krukas 5<br>1792 CW Oudeschild<br>E: <a href="mailto:info@duinkerinfra.nl">info@duinkerinfra.nl</a></div></div>
+      <div class="footer-col"><h4>Contact</h4><button class="btn-contact" onclick="navigate('contact')">Neem contact op ↗</button></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Duinker Infra. Alle rechten voorbehouden.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Cookiebeleid</a><a href="#">Algemene voorwaarden</a></div></div>
+  </footer>
+</div>
+
+<!-- ═══════ PAGE: PROJECTEN ═══════ -->
+<div class="page" id="page-projecten">
+  <div style="background:#ffffff;">
+    <div class="container projecten-header-container" style="padding-top:8rem; padding-bottom:2rem;">
+      <h1 style="font-family:var(--font-head); font-weight:900; font-size:clamp(2rem,4vw,3rem); letter-spacing:-0.03em;">Onze projecten</h1>
+    </div>
+  </div>
+  <section style="background:#ffffff; padding-top:0;">
+    <div class="container">
+      <div class="projecten-page-grid">
+        <div class="project-page-card reveal"><div class="project-page-card-img"><img src="images/vuurtoren.jpg" alt="Herinrichting Oosterend"><span class="project-page-tag">Grondwerk</span></div><div class="project-page-body"><h3>Herinrichting Oosterend</h3><p>Een project waarin voorbereiding, uitvoering en slimme fasering samenkomen voor een compleet vernieuwd terrein.</p></div></div>
+        <div class="project-page-card reveal"><div class="project-page-card-img"><img src="images/graafmachine.webp" alt="Aanleg woonwijk"><span class="project-page-tag">Bouwrijp maken</span></div><div class="project-page-body"><h3>Aanleg woonwijk infrastructuur</h3><p>Complete infrastructurele inrichting van een nieuwbouwwijk, inclusief riolering, bestrating en groenvoorziening.</p></div></div>
+        <div class="project-page-card reveal"><div class="project-page-card-img"><img src="images/kabels-veld.webp" alt="Herstel openbare ruimte"><span class="project-page-tag">Straatwerk</span></div><div class="project-page-body"><h3>Herstel en vernieuwing openbare ruimte</h3><p>Een integrale aanpak waarbij bestrating, afwatering en toegankelijkheid centraal stonden.</p></div></div>
+        <div class="project-page-card reveal"><div class="project-page-card-img"><img src="images/accu-130kwh.webp" alt="Ondersteuning materieel"><span class="project-page-tag">Verhuur</span></div><div class="project-page-body"><h3>Ondersteuning met materieel en vakmensen</h3><p>Flexibele inzet van machines en ervaren professionals voor diverse infra- en bouwprojecten.</p></div></div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Wat wij doen</h4><ul><li><a onclick="navigate('over-ons')">Ontwerp</a></li><li><a onclick="navigate('over-ons')">Advies</a></li><li><a onclick="navigate('over-ons')">Uitvoering</a></li></ul></div>
+      <div class="footer-col"><h4>Pagina's</h4><ul><li><a onclick="navigate('home')">Home</a></li><li><a onclick="navigate('over-ons')">Over ons</a></li><li><a onclick="navigate('projecten')">Projecten</a></li><li><a onclick="navigate('contact')">Contact</a></li><li><a onclick="navigate('verhuur')">Verhuur</a></li><li><a onclick="navigate('vacatures')">Vacatures</a></li></ul></div>
+      <div class="footer-col"><h4>Hoofdkantoor</h4><div class="footer-address">Krukas 5<br>1792 CW Oudeschild<br>E: <a href="mailto:info@duinkerinfra.nl">info@duinkerinfra.nl</a></div></div>
+      <div class="footer-col"><h4>Contact</h4><button class="btn-contact" onclick="navigate('contact')">Neem contact op ↗</button></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Duinker Infra. Alle rechten voorbehouden.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Cookiebeleid</a><a href="#">Algemene voorwaarden</a></div></div>
+  </footer>
+</div>
+
+<!-- ═══════ PAGE: CONTACT ═══════ -->
+<div class="page" id="page-contact">
+  <div class="contact-page">
+    <div class="container contact-page-inner">
+      <h1>Neem contact op</h1>
+      <p>Vul het onderstaande formulier in en we nemen zo snel mogelijk contact met je op.</p>
+      <div class="contact-grid">
+        <div class="contact-form reveal">
+          <div class="form-group"><label>Naam</label><input type="text" id="contact-naam" placeholder="Jouw naam"></div>
+          <div class="form-group"><label>E-mailadres</label><input type="email" id="contact-email" placeholder="jouw@email.nl"></div>
+          <div class="form-group"><label>Telefoonnummer</label><input type="tel" id="contact-tel" placeholder="06 12345678"></div>
+          <div class="form-group"><label>Bericht</label><textarea id="contact-bericht" placeholder="Schrijf hier je bericht..."></textarea></div>
+          <button class="form-submit" onclick="submitContact()">Verstuur bericht</button>
+          <div class="form-success" id="contact-success">✓ Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.</div>
+        </div>
+        <div class="contact-info reveal reveal-delay-2">
+          <h3>Contactgegevens</h3>
+          <div class="contact-info-block">
+            <h4>Adres</h4>
+            <p>Krukas 5<br>1792 CW Oudeschild<br>Noord-Holland, Nederland</p>
+          </div>
+          <div class="contact-info-block">
+            <h4>E-mail</h4>
+            <p><a href="mailto:info@duinkerinfra.nl">info@duinkerinfra.nl</a></p>
+          </div>
+          <div class="contact-info-block">
+            <h4>Openingstijden</h4>
+            <p>Maandag – Vrijdag<br>07:00 – 17:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Wat wij doen</h4><ul><li><a onclick="navigate('over-ons')">Ontwerp</a></li><li><a onclick="navigate('over-ons')">Advies</a></li><li><a onclick="navigate('over-ons')">Uitvoering</a></li></ul></div>
+      <div class="footer-col"><h4>Pagina's</h4><ul><li><a onclick="navigate('home')">Home</a></li><li><a onclick="navigate('over-ons')">Over ons</a></li><li><a onclick="navigate('projecten')">Projecten</a></li><li><a onclick="navigate('contact')">Contact</a></li><li><a onclick="navigate('verhuur')">Verhuur</a></li><li><a onclick="navigate('vacatures')">Vacatures</a></li></ul></div>
+      <div class="footer-col"><h4>Hoofdkantoor</h4><div class="footer-address">Krukas 5<br>1792 CW Oudeschild<br>E: <a href="mailto:info@duinkerinfra.nl">info@duinkerinfra.nl</a></div></div>
+      <div class="footer-col"><h4>Contact</h4><button class="btn-contact" onclick="navigate('contact')">Neem contact op ↗</button></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Duinker Infra. Alle rechten voorbehouden.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Cookiebeleid</a><a href="#">Algemene voorwaarden</a></div></div>
+  </footer>
+</div>
+
+<!-- ═══════ PAGE: VERHUUR ═══════ -->
+<div class="page" id="page-verhuur">
+  <div class="verhuur-page">
+    <div class="container verhuur-page-inner">
+      <h1>Accubatterijpakketten</h1>
+      <div class="verhuur-page-cards">
+        <div class="verhuur-page-card reveal">
+          <img src="images/accu-130kwh.webp" alt="Accubatterij 130 kWh">
+          <div class="verhuur-page-card-body">
+            <h3>Accubatterij 130 kWh / 45 kVa</h3>
+            <p>Krachtige accubatterij voor professioneel gebruik. Ideaal voor elektrische voertuigen en machines.</p>
+            <table class="verhuur-specs-table">
+              <tr><td>kWh:</td><td>130 kWh</td></tr>
+              <tr><td>kVa:</td><td>45 kVa</td></tr>
+              <tr><td>Gewicht:</td><td>2.200 – 2.300 kg</td></tr>
+            </table>
+            <div class="verhuur-card-footer">
+              <span class="prijs-label">Prijs op aanvraag</span>
+              <a class="btn-offerte" href="mailto:info@duinkerinfra.nl?subject=Offerte aanvraag – Accubatterij 130 kWh / 45 kVa&body=Geachte Duinker Infra,%0D%0A%0D%0AIk wil graag een offerte ontvangen voor de huur van de Accubatterij 130 kWh / 45 kVa.%0D%0A%0D%0AMijn gegevens:%0D%0ANaam: %0D%0ABedrijf: %0D%0ATelefoonnummer: %0D%0AE-mailadres: %0D%0A%0D%0AHuurperiode (van – tot): %0D%0ALocatie / project: %0D%0AEventuele vragen of opmerkingen: %0D%0A%0D%0AMet vriendelijke groet,">Offerte aanvragen ✉</a>
+            </div>
+          </div>
+        </div>
+        <div class="verhuur-page-card-coming-soon reveal reveal-delay-1">
+          <div class="verhuur-coming-soon-full">
+            <span class="coming-soon-label-large">Binnenkort beschikbaar</span>
+            <p class="coming-soon-sub">Accubatterij 60 kWh / 45 kVa</p>
+            <p class="coming-soon-info">Dit product is binnenkort beschikbaar. Neem contact op voor meer informatie.</p>
+            <a class="btn-dark" href="mailto:info@duinkerinfra.nl?subject=Informatie – Accubatterij 60 kWh" style="display:inline-flex; margin-top:1.5rem;">Meer informatie ✉</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-section">
+    <div class="container">
+      <h2>Veelgestelde vragen</h2>
+      <div class="faq-item reveal" onclick="toggleFaq(this)"><button class="faq-question">Wat is een Accubatterij? <span class="faq-chevron">∨</span></button><div class="faq-answer"><p>Een accubatterij is een mobiele energieopslag die elektrische apparaten en voertuigen van stroom voorziet zonder uitstoot. Onze accubatterijen zijn speciaal ontwikkeld voor professioneel gebruik op bouwlocaties en emissievrije zones, en bieden een betrouwbare stroomvoorziening zonder geluid of uitlaatgassen.</p></div></div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)"><button class="faq-question">Hoe lang gaat een accu mee? <span class="faq-chevron">∨</span></button><div class="faq-answer"><p>De gebruiksduur is afhankelijk van het verbruik en het type apparatuur. Onze 130 kWh batterij biedt bij normaal gebruik een volle werkdag stroom voor meerdere elektrische machines tegelijk. Voor een nauwkeurige schatting op basis van uw situatie kunt u contact met ons opnemen.</p></div></div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)"><button class="faq-question">Kan ik de accu zelf opladen? <span class="faq-chevron">∨</span></button><div class="faq-answer"><p>Ja, de accubatterijen kunnen worden opgeladen via een standaard driefasige aansluiting (380V). Opladen duurt gemiddeld 6 tot 8 uur voor een volle lading. Bij levering ontvangt u een duidelijke handleiding, en onze medewerkers staan altijd klaar om u te begeleiden bij het eerste gebruik.</p></div></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Wat wij doen</h4><ul><li><a onclick="navigate('over-ons')">Ontwerp</a></li><li><a onclick="navigate('over-ons')">Advies</a></li><li><a onclick="navigate('over-ons')">Uitvoering</a></li></ul></div>
+      <div class="footer-col"><h4>Pagina's</h4><ul><li><a onclick="navigate('home')">Home</a></li><li><a onclick="navigate('over-ons')">Over ons</a></li><li><a onclick="navigate('projecten')">Projecten</a></li><li><a onclick="navigate('contact')">Contact</a></li><li><a onclick="navigate('verhuur')">Verhuur</a></li><li><a onclick="navigate('vacatures')">Vacatures</a></li></ul></div>
+      <div class="footer-col"><h4>Hoofdkantoor</h4><div class="footer-address">Krukas 5<br>1792 CW Oudeschild<br>E: <a href="mailto:info@duinkerinfra.nl">info@duinkerinfra.nl</a></div></div>
+      <div class="footer-col"><h4>Contact</h4><button class="btn-contact" onclick="navigate('contact')">Neem contact op ↗</button></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Duinker Infra. Alle rechten voorbehouden.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Cookiebeleid</a><a href="#">Algemene voorwaarden</a></div></div>
+  </footer>
+</div>
+
+<!-- ═══════ PAGE: VACATURES ═══════ -->
+<div class="page" id="page-vacatures">
+  <div class="vacatures-page">
+    <div class="container vacatures-page-inner">
+
+      <div class="vacatures-intro reveal">
+        <div>
+          <p class="section-label">Werken bij Duinker Infra</p>
+          <h1>Vacatures</h1>
+        </div>
+        <p>Bij Duinker Infra bouwen we aan een emissieloze toekomst — en dat doen we samen. We zijn altijd op zoek naar mensen die willen aanpakken, meedenken en groeien. Zie jij jouw plek bij ons? Neem een kijkje of stuur een open sollicitatie.</p>
+      </div>
+
+      <!-- Vacature: Open sollicitatie -->
+      <div class="vacature-card reveal" id="vac-open">
+        <div class="vacature-card-header" onclick="toggleVacature('vac-open')">
+          <div>
+            <h2>Open sollicitatie</h2>
+            <div class="vacature-meta">
+              <span class="vacature-tag">Fulltime / Parttime</span>
+              <span class="vacature-tag">Texel</span>
+              <span class="vacature-tag">Alle niveaus</span>
+            </div>
+          </div>
+          <div class="vacature-toggle">+</div>
+        </div>
+        <div class="vacature-body">
+          <div class="vacature-body-inner">
+            <div class="vacature-section">
+              <h3>Over de functie</h3>
+              <p>Staat jouw droombaan er niet tussen maar wil je wel graag bij Duinker Infra werken? Stuur ons een open sollicitatie! We zijn een groeiend infrabedrijf op Texel en altijd geïnteresseerd in gemotiveerde mensen — of je nu ervaren bent in de infra, net klaar bent met je opleiding, of een andere achtergrond hebt die je wilt inzetten in de buitenruimte.</p>
+            </div>
+            <div class="vacature-section">
+              <h3>Wat wij bieden</h3>
+              <ul>
+                <li>Marktconform salaris passend bij jouw ervaring</li>
+                <li>Werken met modern en emissieloos materieel</li>
+                <li>Kleine, hechte organisatie met korte lijnen</li>
+                <li>Ruimte voor persoonlijke groei en doorontwikkeling</li>
+                <li>Afwisselend werk in de buitenlucht op Texel</li>
+                <li>Een team dat samenwerkt en op elkaar kan bouwen</li>
+              </ul>
+            </div>
+            <div class="vacature-section">
+              <h3>Wat wij vragen</h3>
+              <ul>
+                <li>Gemotiveerd, hands-on en betrouwbaar</li>
+                <li>Bereid om te leren en verantwoordelijkheid te dragen</li>
+                <li>Interesse in infra, energie of de buitenruimte</li>
+                <li>Goede communicatie en een positieve werkhouding</li>
+                <li>Rijbewijs B (rijbewijs BE of C is een pré)</li>
+              </ul>
+            </div>
+            <div class="vacature-section">
+              <h3>Sollicitatieproces</h3>
+              <ul>
+                <li>Stuur je motivatie en CV naar info@duinkerinfra.nl</li>
+                <li>Wij nemen binnen 5 werkdagen contact met je op</li>
+                <li>Eerste kennismaking — kort en informeel</li>
+                <li>Eventueel een dag meelopen op locatie</li>
+              </ul>
+            </div>
+          </div>
+          <div class="vacature-cta">
+            <p>Vragen? Bel of mail ons gerust — we denken graag met je mee.</p>
+            <a class="btn-dark" href="mailto:info@duinkerinfra.nl?subject=Open sollicitatie – Duinker Infra&body=Geachte Duinker Infra,%0D%0A%0D%0AIk wil graag een open sollicitatie insturen.%0D%0A%0D%0AMijn naam: %0D%0AMijn telefoonnummer: %0D%0AWat ik doe / mijn achtergrond: %0D%0AWaarom Duinker Infra: %0D%0A%0D%0ABijgevoegd mijn CV en motivatie.%0D%0A%0D%0AMet vriendelijke groet,">Stuur open sollicitatie ✉</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Geen andere vacatures -->
+      <div class="vacatures-empty reveal">
+        <p>Momenteel zijn er geen andere openstaande vacatures.<br>Houd deze pagina in de gaten of stuur een open sollicitatie.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Wat wij doen</h4><ul><li><a onclick="navigate('over-ons')">Ontwerp</a></li><li><a onclick="navigate('over-ons')">Advies</a></li><li><a onclick="navigate('over-ons')">Uitvoering</a></li></ul></div>
+      <div class="footer-col"><h4>Pagina's</h4><ul><li><a onclick="navigate('home')">Home</a></li><li><a onclick="navigate('over-ons')">Over ons</a></li><li><a onclick="navigate('projecten')">Projecten</a></li><li><a onclick="navigate('contact')">Contact</a></li><li><a onclick="navigate('verhuur')">Verhuur</a></li><li><a onclick="navigate('vacatures')">Vacatures</a></li></ul></div>
+      <div class="footer-col"><h4>Hoofdkantoor</h4><div class="footer-address">Krukas 5<br>1792 CW Oudeschild<br>E: <a href="mailto:info@duinkerinfra.nl">info@duinkerinfra.nl</a></div></div>
+      <div class="footer-col"><h4>Contact</h4><button class="btn-contact" onclick="navigate('contact')">Neem contact op ↗</button></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Duinker Infra. Alle rechten voorbehouden.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Cookiebeleid</a><a href="#">Algemene voorwaarden</a></div></div>
+  </footer>
+</div>
+
+<script>
+  const transparentPages = ['home', 'over-ons'];
+
+  function navigate(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    window.scrollTo(0, 0);
+    updateNav(page);
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active-link', a.dataset.page === page);
+    });
+    history.pushState(null, '', '#' + page);
+  }
+
+  function updateNav(page) {
+    const navbar = document.getElementById('navbar');
+    if (transparentPages.includes(page)) {
+      navbar.className = window.scrollY > 50 ? 'scrolled-dark' : 'transparent';
+    } else {
+      navbar.className = 'solid';
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    const hash = location.hash.replace('#', '') || 'home';
+    if (transparentPages.includes(hash)) {
+      updateNav(hash);
+    }
+  });
+
+  window.addEventListener('load', () => {
+    const hash = location.hash.replace('#', '') || 'home';
+    navigate(hash);
+  });
+
+  window.addEventListener('popstate', () => {
+    const hash = location.hash.replace('#', '') || 'home';
+    navigate(hash);
+  });
+
+  function openMobile() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow = ''; }
+
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── SCROLL REVEAL ──
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) el.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  function initReveal() {
+    document.querySelectorAll('.page.active .reveal').forEach(el => {
+      el.classList.remove('visible');
+      revealObserver.unobserve(el);
+      revealObserver.observe(el);
+    });
+  }
+
+  // Hook into navigate
+  const _nav = navigate;
+  navigate = function(page) {
+    _nav(page);
+    setTimeout(initReveal, 60);
+  };
+
+  setTimeout(initReveal, 150);
+
+  // ── MOBILE SLIDERS ──
+  function createSlider(sliderId, dotsId) {
+    let current = 0;
+    const slider = document.getElementById(sliderId);
+    if (!slider) return null;
+    const slides = slider.querySelectorAll('.mobile-slide');
+    const dots = document.getElementById(dotsId) ? document.getElementById(dotsId).querySelectorAll('.slider-dot') : [];
+    function go(n) {
+      slides[current].classList.remove('active');
+      if (dots[current]) dots[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      if (dots[current]) dots[current].classList.add('active');
+    }
+    return { go, next: () => go(current + 1), prev: () => go(current - 1) };
+  }
+
+  const waardenSlider = createSlider('waardenSlider', 'waardenDots');
+  const werkwijzeSlider = createSlider('werkwijzeSlider', 'werkwijzeDots');
+
+  // Swipe support for waarden slider
+  (function() {
+    const el = document.getElementById('waardenSlider');
+    if (!el) return;
+    let startX = 0;
+    el.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
+    el.addEventListener('touchend', e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) waardenSlider && waardenSlider.next();
+        else waardenSlider && waardenSlider.prev();
+      }
+    });
+  })();
+
+  function slideWaarden(dir) { if (waardenSlider) dir > 0 ? waardenSlider.next() : waardenSlider.prev(); }
+  function goWaarden(n) { if (waardenSlider) waardenSlider.go(n); }
+  function slideWerkwijze(dir) { if (werkwijzeSlider) dir > 0 ? werkwijzeSlider.next() : werkwijzeSlider.prev(); }
+  function goWerkwijze(n) { if (werkwijzeSlider) werkwijzeSlider.go(n); }
+
+  function toggleVacature(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function submitContact() {
+    const naam = document.getElementById('contact-naam').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const tel = document.getElementById('contact-tel').value.trim();
+    const bericht = document.getElementById('contact-bericht').value.trim();
+    if (!naam || !email || !bericht) { alert('Vul minimaal je naam, e-mailadres en bericht in.'); return; }
+    const subject = encodeURIComponent('Contactformulier – ' + naam);
+    const body = encodeURIComponent(`Naam: ${naam}\nE-mail: ${email}\nTelefoon: ${tel}\n\nBericht:\n${bericht}`);
+    window.location.href = `mailto:info@duinkerinfra.nl?subject=${subject}&body=${body}`;
+    document.getElementById('contact-success').style.display = 'block';
+  }
+</script>
+</body>
+</html>
